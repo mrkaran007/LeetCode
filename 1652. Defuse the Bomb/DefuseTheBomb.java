@@ -41,45 +41,75 @@ n == code.length
 
  */
 
+    /* Updated */
 
-
- class Solution {
-    public int[] decrypt(int[] code, int k) {
-        int n = code.length;
-        int[] result = new int[n];
-
-        if(k == 0){
-            for(int i = 0; i < result.length; i++){
-                result[i] = 0;
+    class Solution {
+        // Time Complexity: O(n×∣k∣)
+        public int[] decrypt(int[] code, int k) {
+            int n = code.length;
+            int[] result = new int[n];
+            
+            if (k == 0) {
+                // If k is 0, all elements in the result are 0.
+                return result;
             }
-        }else if(k > 0){
-            for(int i = 0; i < result.length; i++){
-                int next = i+1;
+            
+            int absK = Math.abs(k); // Absolute value of k
+            
+            for (int i = 0; i < n; i++) {
                 int sum = 0;
-                for(int j = 0; j < k; j++){
-                    if(next >= n){
-                        next = 0;
-                    }
-                    sum += code[next];
-                    next++; 
+                for (int j = 1; j <= absK; j++) {
+                    // Calculate the index to add based on the direction of k
+                    int index = (k > 0) ? (i + j) % n : (i - j + n) % n;
+                    sum += code[index];
                 }
                 result[i] = sum;
             }
-        }else{
-            for(int i = 0; i < result.length; i++){
-                int prev = i-1;
-                int sum = 0;
-                int absK = -(k); // absolute k
-                for(int j = 0; j < absK; j++){
-                    if(prev < 0){
-                        prev = n-1;
-                    }
-                    sum += code[prev];
-                    prev--; 
-                }
-                result[i] = sum;
-            }
+            
+            return result;
         }
-        return result;
     }
-}
+    
+
+
+    /*  My way */
+//  class Solution {
+//     public int[] decrypt(int[] code, int k) {
+//         int n = code.length;
+//         int[] result = new int[n];
+
+//         if(k == 0){
+//             for(int i = 0; i < result.length; i++){
+//                 result[i] = 0;
+//             }
+//         }else if(k > 0){
+//             for(int i = 0; i < result.length; i++){
+//                 int next = i+1;
+//                 int sum = 0;
+//                 for(int j = 0; j < k; j++){
+//                     if(next >= n){
+//                         next = 0;
+//                     }
+//                     sum += code[next];
+//                     next++; 
+//                 }
+//                 result[i] = sum;
+//             }
+//         }else{
+//             for(int i = 0; i < result.length; i++){
+//                 int prev = i-1;
+//                 int sum = 0;
+//                 int absK = -(k); // absolute k
+//                 for(int j = 0; j < absK; j++){
+//                     if(prev < 0){
+//                         prev = n-1;
+//                     }
+//                     sum += code[prev];
+//                     prev--; 
+//                 }
+//                 result[i] = sum;
+//             }
+//         }
+//         return result;
+//     }
+// }
